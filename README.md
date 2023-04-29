@@ -22,6 +22,7 @@ This unzipped directory contains the data that you will be using for this challe
 
 ## Environment Set Up
 * Install Python 3, check the following link for more info https://realpython.com/installing-python/
+
 * Create virtual environment
 Run the following command to create a virtual environment named env:
 ```
@@ -33,6 +34,12 @@ source env/bin/activate
 ```
 Note: If you're on Windows, use env\Scripts\activate instead.
 
+* Clone this repository
+```
+git clone https://github.com/mt-cs/web-clicks-calculator.git
+
+cd web-clicks-calculator/
+```
 
 ## Dependencies
 Navigate to the directory where the requirements.txt file is located.
@@ -43,6 +50,22 @@ pip install -r requirements.txt
 ```
 
 Here are the dependencies used in this program:
+* argparse==1.4.0: A Python module to write user-friendly command-line interfaces.  The version specified here is 1.4.0.
+* jsonschema==4.2.1: A Python library for validating JSON data against a JSON schema. The version specified here is 4.2.1.
+
+## Run 
+Run the script with encodes.csv and decodes.json file paths:
+```
+python script.py -e path/your/encodes.csv -d path/your/decodes.json
+```
+The argparse module is used to parse command line arguments. The encoded_data_file and decoded_data_file variables are set to default values, but can be overwritten by command line arguments.
+
+## Test
+
+This solution includes unit tests for each function. To test the program, run this script on command line:
+```
+python -m unittest test_click_counter.py
+```
 
 ## Output
 
@@ -59,26 +82,6 @@ Example: [{"https://google.com": 3}, {"https://www.twitter.com" : 2}]
 Here is the exact output for this program:
 ```
 [{'https://youtube.com': 557}, {'https://twitter.com': 512}, {'https://reddit.com': 510}, {'https://github.com': 497}, {'https://linkedin.com': 496}, {'https://google.com': 492}]
-```
-
-## Language and Framework
-
-Feel free to choose any language and framework you are comfortable with. The language that we primarily use at Bitly on the backend is Go, however, you should not feel pressured to use Go if you are not currently comfortable with it. We want you to be able to focus more on your solution than the tools and language.
-
-If you are advanced to the next stage of interviews, the live coding will involve making minor improvements/additions to your coding challenge solution which is why we emphasize using a language that you can navigate comfortably. 
-
-## Run 
-Run the script with encodes.csv and decodes.json file paths:
-```
-python script.py -e path/your/encodes.csv -d path/your/decodes.json
-```
-The argparse module is used to parse command line arguments. The encoded_data_file and decoded_data_file variables are set to default values, but can be overwritten by command line arguments.
-
-## Test
-
-This solution includes unit tests for each function. To test the program, run this script on command line:
-```
-python -m unittest test_click_counter.py
 ```
 
 ## Notes
