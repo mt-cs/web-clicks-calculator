@@ -1,3 +1,4 @@
+import argparse
 import json
 import csv
 from collections import Counter
@@ -100,23 +101,45 @@ class ClickCounter:
         self.clicks = dict(sorted(self.clicks.items(), key=lambda item: item[1], reverse=True))
         return [self.clicks]
 
+    def run_click_counter(self):
+        """
+        Runs the click counter.
 
-def main():
-    encoded_data_file = 'encodes.csv'
-    decoded_data_file = 'decodes.json'
+        Creates a map of Bitlink url as key and long url as value,
+        and counts the number of clicks for each long URL.
 
-    counter = ClickCounter(encoded_data_file, decoded_data_file)
+        Returns:
+            list: The sorted URL and click count result.
 
-    # Create a map of Bitlink url as key and long url as value
-    counter.create_encoding_map()
+        Raises:
+            FileNotFoundError: If the encoded or decoded data file does not exist.
+            KeyError: If the 'bitlink' key is not present in the JSON data.
+        """
+        # Create a map of Bitlink url as key and long url as value
+        self.create_encoding_map()
 
-    # Get desired records from the json file and count the number of clicks
-    counter.count_clicks()
+        # Get desired records from the json file and count the number of clicks
+        self.count_clicks()
 
-    # Get sorted result based on clicks in descending order
-    result = counter.get_sorted_result()
-    print(f"The sorted URL and click count result is: {result}")
+        # Get sorted result based on clicks in descending order
+        return self.get_sorted_result()
 
 
 if __name__ == '__main__':
-    main()
+    encoded_data_file = 'encodes.csv'
+    decoded_data_file = 'decodes.json'
+
+    # Allow other developers to pass their own data file paths
+    # using command line arguments
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-e', '--encoded_data_file', type=str, default=encoded_data_file,
+                        help='Path to the CSV file containing the encoded long URL data')
+    parser.add_argument('-d', '--decoded_data_file', type=str, default=decoded_data_file,
+                        help='Path to the JSON file containing the decoded Bitlink URL data')
+    args = parser.parse_args()
+
+    # Create instance, run ClickCounter class, and print result
+    counter = ClickCounter(args.encoded_data_file, args.decoded_data_file)
+    result = counter.run_click_counter()
+    print(f"The sorted URL and click count result is: {result}")
+
