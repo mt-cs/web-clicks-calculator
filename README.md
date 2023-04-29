@@ -20,7 +20,29 @@ This unzipped directory contains the data that you will be using for this challe
 
 **Problem:** Calculate the number of clicks from 2021 for each record in the encode.csv data set.
 
+## Environment Set Up
+* Install Python 3, check the following link for more info https://realpython.com/installing-python/
+* Create virtual environment
+Run the following command to create a virtual environment named env:
+```
+python3 -m venv env
+```
+Once the virtual environment is created, activate it by running the following command:
+```
+source env/bin/activate
+```
+Note: If you're on Windows, use env\Scripts\activate instead.
+
+
 ## Dependencies
+Navigate to the directory where the requirements.txt file is located.
+
+Run the following command to install the dependencies listed in the file:
+```
+pip install -r requirements.txt
+```
+
+Here are the dependencies used in this program:
 
 ## Output
 
