@@ -45,6 +45,14 @@ Feel free to choose any language and framework you are comfortable with. The lan
 
 If you are advanced to the next stage of interviews, the live coding will involve making minor improvements/additions to your coding challenge solution which is why we emphasize using a language that you can navigate comfortably. 
 
+## Run 
+Run the script with encodes.csv and decodes.json file paths:
+```
+python script.py -e path/your/encodes.csv -d path/your/decodes.json
+```
+The argparse module is used to parse command line arguments. The encoded_data_file and decoded_data_file variables are set to default values, but can be overwritten by command line arguments.
+
+
 ## Notes
 
 * Bitly Glossary:
