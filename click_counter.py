@@ -2,11 +2,31 @@ import json
 import csv
 from collections import Counter
 
+
 class ClickCounter:
     def __init__(self, encoded_data_file, decoded_data_file):
         self.encoded_data_file = encoded_data_file
         self.decoded_data_file = decoded_data_file
+        self.encoding_map = {}
         self.clicks = {}
+        self.result = {}
+
+    def get_encoded_data(self):
+        with open(self.encoded_data_file, 'r') as csvfile:
+            reader = csv.reader(csvfile)
+            # Skip the first row (header)
+            next(reader)
+            raw_data = [row for row in reader]
+        return raw_data
+
+    def create_encoding_map(self):
+        raw_data = self.get_encoded_data()
+        for record in raw_data:
+            key = ('http://' + record[1] + '/' + record[2])
+            value = record[0]
+            self.encoding_map.update({key: value})
+
+        # print(self.encoding_map)
 
     def get_bitlink_url(self):
         """
@@ -19,63 +39,52 @@ class ClickCounter:
             FileNotFoundError: If the decodes data file does not exist.
             KeyError: If the 'bitlink' key is not present in the JSON data.
         """
-        try:
+        # print(self.encoding_map)
+        # if 'https://bit.ly/31Tt55y' in self.encoding_map:
+        #     print('https://bit.ly/31Tt55y')
 
-            with open(self.encoded_data_file) as f:
+        try:
+            with open(self.decoded_data_file) as f:
                 input_json_data = json.load(f)
 
-            encoded_data = []
+            decoded_data = []
             for data in input_json_data:
-                encoded_data.append(data['bitlink'])
+                decoded_data.append(data['bitlink'])
 
-            return encoded_data
+            return decoded_data
 
         except FileNotFoundError:
-            raise FileNotFoundError(f"Encoded data file not found: {self.encoded_data_file}")
+            raise FileNotFoundError(f"Decoded data file not found: {self.decoded_data_file}")
 
         except KeyError:
             raise KeyError("JSON data does not contain a 'bitlink' key")
 
     def count_clicks(self):
-        encoded_url = self.get_bitlink_url()
-        self.clicks = dict(Counter(encoded_url))
+        decoded_url = self.get_bitlink_url()
+        self.clicks = dict(Counter(decoded_url))
+        print(self.clicks)
 
-
-        # for record in self.encoded_data:
-        #     if record in self.click_count_encoded:
-        #         self.click_count_encoded[record] += 1
-        #     else:
-        #         self.click_count_encoded[record] = 1
-        #
-        # for record in self.raw_data:
-        #     if record in self.click_count_raw:
-        #         self.click_count_raw[record] += 1
-        #     else:
-        #         self.click_count_raw[record] = 1
-
-    def parse_encoded_data(self):
-        with open(self.encoded_data_file, 'r') as csvfile:
-            reader = csv.reader(csvfile)
-            # Skip the first row (header)
-            next(reader)
-            raw_data = [row for row in reader]
-        return raw_data
+    def get_long_url_count(self):
+        for key in self.clicks.copy().keys():
+            if key not in self.encoding_map:
+                del self.clicks[key]
+        print()
+        print(self.clicks)
 
 def main():
-    encoded_data_file = 'decodes.json'
-    decoded_data_file = 'encodes.csv'
+    encoded_data_file = 'encodes.csv'
+    decoded_data_file = 'decodes.json'
 
     counter = ClickCounter(encoded_data_file, decoded_data_file)
-    # bitlink_url = counter.get_bitlink_url()
 
-    # print(f"The bitlink URL is: {bitlink_url}")
+    # Create a map of bitlink url as key and long url as value
+    counter.create_encoding_map()
 
-
-    # raw_data = counter.parse_encoded_data()
-    # print(raw_data)
-
+    # Get all records from the json file and count the number of clicks
     counter.count_clicks()
-    print(counter.clicks)
+
+    # Get result by checking if the counted url is in encoding map
+    counter.get_long_url_count()
 
 
 if __name__ == '__main__':
