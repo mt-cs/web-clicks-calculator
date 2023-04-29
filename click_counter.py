@@ -30,13 +30,19 @@ class ClickCounter:
         Returns:
             list: The data from the encoded data file as a list of lists.
 
+        Raises:
+            FileNotFoundError: If the encodes.csv file does not exist.
         """
-        with open(self.encoded_data_file, 'r') as csvfile:
-            reader = csv.reader(csvfile)
-            # Skip the first row (header)
-            next(reader)
-            raw_data = [row for row in reader]
-        return raw_data
+        try:
+            with open(self.encoded_data_file, 'r') as csv_file:
+                reader = csv.reader(csv_file)
+                # Skip the first row (header)
+                next(reader)
+                raw_data = [row for row in reader]
+            return raw_data
+
+        except FileNotFoundError:
+            raise FileNotFoundError(f"Encoded data file not found: {self.encoded_data_file}")
 
     def create_encoding_map(self):
         """Create a dictionary mapping the Bitlink URL to long URL from raw data."""
@@ -66,6 +72,7 @@ class ClickCounter:
             decoded_data = []
             for data in input_json_data:
                 url = data['bitlink']
+                # keep desired bitlink urls if they are in encoding map
                 if url in self.encoding_map:
                     decoded_data.append(self.encoding_map.get(url))
 
