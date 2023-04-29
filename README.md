@@ -48,7 +48,7 @@ python script.py -e path/your/encodes.csv -d path/your/decodes.json
 ```
 The argparse module is used to parse command line arguments. The encoded_data_file and decoded_data_file variables are set to default values, but can be overwritten by command line arguments.
 
-# Test
+## Test
 
 This solution includes unit tests for each function. To test the program, run this script on command line:
 ```
