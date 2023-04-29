@@ -51,6 +51,16 @@ class TestClickCounter(unittest.TestCase):
         actual_data = self.counter.get_encoded_data()
         self.assertEqual(expected_data, actual_data)
 
+    def test_create_encoding_map(self):
+        expected_map = {
+            'http://bit.ly/test1': 'https://google.com',
+            'http://bit.ly/test2': 'http://github.com',
+            'http://bit.ly/test3': 'http://twitter.com'
+        }
+        self.counter.create_encoding_map()
+        actual_map = self.counter.encoding_map
+        self.assertEqual(expected_map, actual_map)
+
 
 
 if __name__ == '__main__':
