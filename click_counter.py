@@ -75,6 +75,7 @@ class ClickCounter:
             for data in input_json_data:
                 url = data['bitlink']
                 timestamp = data['timestamp']
+                # Only store the url that passed the given specification
                 # keep urls if they are in encoding map, and clicks occur 2021
                 if url in self.encoding_map and timestamp.startswith('2021'):
                     decoded_data.append(self.encoding_map.get(url))
@@ -93,7 +94,7 @@ class ClickCounter:
         and save the url and its click count in clicks map
         """
         decoded_url = self.get_decoded_url()
-        # self.clicks = dict(Counter(decoded_url))
+        # The built-in counter class makes the code more readable and concise
         counts = Counter(decoded_url)
         self.clicks = [{url: count} for url, count in counts.items()]
 
@@ -102,6 +103,10 @@ class ClickCounter:
         Sort the results of click counts in descending order
         and return them as a list of dictionary.
         """
+        # uses the sorted function to sort the results of the click counts
+        # It's more efficient for large datasets, as it uses an algorithm called Timsort
+        # that has a worst-case time complexity of O(n log n)
+        # compared to a traditional sorting algorithm implemented in a for loop that has a time complexity of O(n^2).
         return sorted(self.clicks, key=lambda x: next(iter(x.values())), reverse=True)
 
     def run_click_counter(self):

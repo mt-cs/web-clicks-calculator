@@ -1,11 +1,5 @@
 # Web Clicks Calculator
 A Python program that calculate the number of clicks for each record that occured in 2021 using encoded and raw data sets. 
- 
-* Solution should be well documented 
-* A README which should include:
-  - A list of dependencies of your project, as well as how to install them (we may not be experts in your chosen language, framework, and tools)
-  - Instructions for running your application/script (you may include a Dockerfile or a Makefile, but this is not a requirement)
-  - A description of any design decisions 
 
 ## Description
 This coding exercise is from Bitly Backend Engineer - Coding Challenge. This task is designed to be relevant to the kind of work an engineer does at Bitly. 
@@ -54,15 +48,16 @@ Here are the dependencies used in this program:
 * jsonschema==4.2.1: A Python library for validating JSON data against a JSON schema. The version specified here is 4.2.1.
 
 ## Run 
-Run the script with encodes.csv and decodes.json file paths:
+Run the `click_counter.py` script with encodes.csv and decodes.json file paths:
 ```
-python script.py -e path/your/encodes.csv -d path/your/decodes.json
+python click_counter.py -e path/your/encodes.csv -d path/your/decodes.json
 ```
 The argparse module is used to parse command line arguments. The encoded_data_file and decoded_data_file variables are set to default values, but can be overwritten by command line arguments.
+The decision to use the argparse module is to allow other developers to pass their own data file paths using command-line arguments.
 
 ## Test
 
-This solution includes unit tests for each function. To test the program, run this script on command line:
+This solution includes unit tests for each function in `test_click_counter.py`. To test the program, run this script on command line:
 ```
 python -m unittest test_click_counter.py
 ```
