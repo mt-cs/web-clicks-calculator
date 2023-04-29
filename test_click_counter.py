@@ -13,9 +13,9 @@ class TestClickCounter(unittest.TestCase):
 
         # write test data to CSV file
         self.encoded_data = [
-            ['https://google.com', 'bit.ly', 'test1'],
-            ['http://github.com', 'bit.ly', 'test2'],
-            ['http://twitter.com', 'bit.ly', 'test3']
+            ['https://google.com/', 'bit.ly', 'test1'],
+            ['http://github.com/', 'bit.ly', 'test2'],
+            ['http://twitter.com/', 'bit.ly', 'test3']
             ]
 
         with open(self.encoded_file, mode='w') as file:

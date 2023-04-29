@@ -50,7 +50,7 @@ class ClickCounter:
         raw_data = self.get_encoded_data()
         for record in raw_data:
             key = f'http://{record[1]}/{record[2]}'
-            value = record[0]
+            value = record[0].rstrip("/")
             self.encoding_map.update({key: value})
 
     def get_decoded_url(self):
