@@ -31,12 +31,15 @@ class TestClickCounter(unittest.TestCase):
         self.decoded_file = 'test_decodes.json'
         # write test data to JSON file
         self.decoded_data = [
-            {'bitlink': 'http://bit.ly/test1', 'user_agent': 'breathe'},
-            {'bitlink': 'http://bit.ly/test2', 'user_agent': 'breathe'},
-            {'bitlink': 'http://bit.ly/test3', 'user_agent': 'breathe'},
-            {'bitlink': 'http://bit.ly/test2', 'user_agent': 'listen'},
-            {'bitlink': 'http://bit.ly/test3', 'user_agent': 'listen'},
-            {'bitlink': 'http://bit.ly/test3', 'user_agent': 'smile'}
+            {'bitlink': 'http://bit.ly/test1', 'user_agent': 'breathe', 'timestamp': '2020-09-10T00:00:00Z'},
+            {'bitlink': 'http://bit.ly/test1', 'user_agent': 'breathe', 'timestamp': '2021-09-10T00:00:00Z'},
+            {'bitlink': 'http://bit.ly/test2', 'user_agent': 'breathe', 'timestamp': '2021-09-10T00:00:00Z'},
+            {'bitlink': 'http://bit.ly/test3', 'user_agent': 'breathe', 'timestamp': '2021-09-10T00:00:00Z'},
+            {'bitlink': 'http://bit.ly/test2', 'user_agent': 'listen', 'timestamp': '2020-09-10T00:00:00Z'},
+            {'bitlink': 'http://bit.ly/test3', 'user_agent': 'listen', 'timestamp': '2020-09-10T00:00:00Z'},
+            {'bitlink': 'http://bit.ly/test2', 'user_agent': 'listen', 'timestamp': '2021-09-10T00:00:00Z'},
+            {'bitlink': 'http://bit.ly/test3', 'user_agent': 'listen', 'timestamp': '2021-09-10T00:00:00Z'},
+            {'bitlink': 'http://bit.ly/test3', 'user_agent': 'smile', 'timestamp': '2021-09-10T00:00:00Z'}
         ]
         with open(self.decoded_file, 'w') as f:
             json.dump(self.decoded_data, f)

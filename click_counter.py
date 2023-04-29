@@ -56,7 +56,8 @@ class ClickCounter:
     def get_decoded_url(self):
         """
         Parse a JSON file, checks if the bitlink url is in encoding map,
-        and return a list of decoded long URL.
+        and clicks happened in 2021,
+        then return a list of decoded long URL.
 
         Returns:
             str: The long URL list from the JSON data
@@ -73,8 +74,9 @@ class ClickCounter:
             decoded_data = []
             for data in input_json_data:
                 url = data['bitlink']
-                # keep desired bitlink urls if they are in encoding map
-                if url in self.encoding_map:
+                timestamp = data['timestamp']
+                # keep urls if they are in encoding map, and clicks occur 2021
+                if url in self.encoding_map and timestamp.startswith('2021'):
                     decoded_data.append(self.encoding_map.get(url))
 
             return decoded_data
