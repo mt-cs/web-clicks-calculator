@@ -91,15 +91,16 @@ class ClickCounter:
         and save the url and its click count in clicks map
         """
         decoded_url = self.get_decoded_url()
-        self.clicks = dict(Counter(decoded_url))
+        # self.clicks = dict(Counter(decoded_url))
+        counts = Counter(decoded_url)
+        self.clicks = [{url: count} for url, count in counts.items()]
 
     def get_sorted_result(self):
         """
         Sort the results of click counts in descending order
         and return them as a list of dictionary.
         """
-        self.clicks = dict(sorted(self.clicks.items(), key=lambda item: item[1], reverse=True))
-        return [self.clicks]
+        return sorted(self.clicks, key=lambda x: next(iter(x.values())), reverse=True)
 
     def run_click_counter(self):
         """
@@ -141,5 +142,5 @@ if __name__ == '__main__':
     # Create instance, run ClickCounter class, and print result
     counter = ClickCounter(args.encoded_data_file, args.decoded_data_file)
     result = counter.run_click_counter()
-    print(f"The sorted URL and click count result is: {result}")
+    print(result)
 

@@ -31,15 +31,19 @@ class TestClickCounter(unittest.TestCase):
         self.decoded_file = 'test_decodes.json'
         # write test data to JSON file
         self.decoded_data = [
-            {'bitlink': 'http://bit.ly/test1'},
-            {'bitlink': 'http://bit.ly/test2'},
-            {'bitlink': 'http://bit.ly/test3'}
+            {'bitlink': 'http://bit.ly/test1', 'user_agent': 'breathe'},
+            {'bitlink': 'http://bit.ly/test2', 'user_agent': 'breathe'},
+            {'bitlink': 'http://bit.ly/test3', 'user_agent': 'breathe'},
+            {'bitlink': 'http://bit.ly/test2', 'user_agent': 'listen'},
+            {'bitlink': 'http://bit.ly/test3', 'user_agent': 'listen'},
+            {'bitlink': 'http://bit.ly/test3', 'user_agent': 'smile'}
         ]
         with open(self.decoded_file, 'w') as f:
             json.dump(self.decoded_data, f)
 
         # create ClickCounter instance for testing
         self.counter = ClickCounter(self.encoded_file, self.decoded_file)
+        self.counter.create_encoding_map()
 
     def tearDown(self):
         # remove temporary files
@@ -62,12 +66,28 @@ class TestClickCounter(unittest.TestCase):
         self.assertEqual(expected_map, actual_map)
 
     def test_get_decoded_url(self):
-        expected_data = ['https://google.com', 'http://github.com', 'http://twitter.com']
-        self.counter.create_encoding_map()
+        expected_data = [
+            'https://google.com',
+            'http://github.com',
+            'http://twitter.com',
+            'http://github.com',
+            'http://twitter.com',
+            'http://twitter.com']
         actual_data = self.counter.get_decoded_url()
         self.assertEqual(expected_data, actual_data)
 
+    def test_count_clicks(self):
+        # expected_clicks = {'https://google.com': 1, 'http://github.com': 2, 'http://twitter.com': 3}
+        expected_clicks = [{'https://google.com': 1}, {'http://github.com': 2}, {'http://twitter.com': 3}]
+        self.counter.count_clicks()
+        actual_clicks = self.counter.clicks
+        self.assertEqual(expected_clicks, actual_clicks)
 
+    def test_get_sorted_result(self):
+        expected_result = [{'http://twitter.com': 3}, {'http://github.com': 2}, {'https://google.com': 1}]
+        self.counter.count_clicks()
+        actual_result = self.counter.get_sorted_result()
+        self.assertEqual(expected_result, actual_result)
 
 
 if __name__ == '__main__':
