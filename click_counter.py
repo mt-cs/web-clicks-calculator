@@ -22,11 +22,9 @@ class ClickCounter:
     def create_encoding_map(self):
         raw_data = self.get_encoded_data()
         for record in raw_data:
-            key = ('http://' + record[1] + '/' + record[2])
+            key = f'http://{record[1]}/{record[2]}'
             value = record[0]
             self.encoding_map.update({key: value})
-
-        # print(self.encoding_map)
 
     def get_bitlink_url(self):
         """
@@ -39,9 +37,6 @@ class ClickCounter:
             FileNotFoundError: If the decodes data file does not exist.
             KeyError: If the 'bitlink' key is not present in the JSON data.
         """
-        # print(self.encoding_map)
-        # if 'https://bit.ly/31Tt55y' in self.encoding_map:
-        #     print('https://bit.ly/31Tt55y')
 
         try:
             with open(self.decoded_data_file) as f:
@@ -49,7 +44,9 @@ class ClickCounter:
 
             decoded_data = []
             for data in input_json_data:
-                decoded_data.append(data['bitlink'])
+                url = data['bitlink']
+                if url in self.encoding_map:
+                    decoded_data.append(self.encoding_map.get(url))
 
             return decoded_data
 
@@ -62,14 +59,8 @@ class ClickCounter:
     def count_clicks(self):
         decoded_url = self.get_bitlink_url()
         self.clicks = dict(Counter(decoded_url))
-        print(self.clicks)
+        return [self.clicks]
 
-    def get_long_url_count(self):
-        for key in self.clicks.copy().keys():
-            if key not in self.encoding_map:
-                del self.clicks[key]
-        print()
-        print(self.clicks)
 
 def main():
     encoded_data_file = 'encodes.csv'
@@ -77,14 +68,12 @@ def main():
 
     counter = ClickCounter(encoded_data_file, decoded_data_file)
 
-    # Create a map of bitlink url as key and long url as value
+    # Create a map of Bitlink url as key and long url as value
     counter.create_encoding_map()
 
-    # Get all records from the json file and count the number of clicks
-    counter.count_clicks()
-
-    # Get result by checking if the counted url is in encoding map
-    counter.get_long_url_count()
+    # Get desired records from the json file and count the number of clicks
+    result = counter.count_clicks()
+    print(f"The sorted URL and click count result is: {result}")
 
 
 if __name__ == '__main__':
