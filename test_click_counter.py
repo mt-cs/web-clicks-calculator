@@ -77,7 +77,6 @@ class TestClickCounter(unittest.TestCase):
         self.assertEqual(expected_data, actual_data)
 
     def test_count_clicks(self):
-        # expected_clicks = {'https://google.com': 1, 'http://github.com': 2, 'http://twitter.com': 3}
         expected_clicks = [{'https://google.com': 1}, {'http://github.com': 2}, {'http://twitter.com': 3}]
         self.counter.count_clicks()
         actual_clicks = self.counter.clicks
