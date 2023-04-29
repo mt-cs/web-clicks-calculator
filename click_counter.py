@@ -59,7 +59,9 @@ class ClickCounter:
     def count_clicks(self):
         decoded_url = self.get_bitlink_url()
         self.clicks = dict(Counter(decoded_url))
-        return [self.clicks]
+
+    def get_sorted_result(self):
+        return [dict(sorted(self.clicks.items(), key=lambda item: item[1], reverse=True))]
 
 
 def main():
@@ -72,7 +74,10 @@ def main():
     counter.create_encoding_map()
 
     # Get desired records from the json file and count the number of clicks
-    result = counter.count_clicks()
+    counter.count_clicks()
+
+    # Get sorted result based on clicks in descending order
+    result = counter.get_sorted_result()
     print(f"The sorted URL and click count result is: {result}")
 
 
