@@ -61,6 +61,13 @@ class TestClickCounter(unittest.TestCase):
         actual_map = self.counter.encoding_map
         self.assertEqual(expected_map, actual_map)
 
+    def test_get_decoded_url(self):
+        expected_data = ['https://google.com', 'http://github.com', 'http://twitter.com']
+        self.counter.create_encoding_map()
+        actual_data = self.counter.get_decoded_url()
+        self.assertEqual(expected_data, actual_data)
+
+
 
 
 if __name__ == '__main__':
